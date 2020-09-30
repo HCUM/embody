@@ -1,0 +1,45 @@
+import wx
+
+from enum import Enum
+class StreamEventListener(wx.Panel):
+    '''
+    Super class for every module that wants to listen to stream events
+    '''
+
+    def __init__(self, parent, streamHandler):
+        wx.Panel.__init__(self, parent)
+        self.streamHandler = streamHandler
+
+    def onStreamEvent(self, streamEvent):
+        pass
+
+
+class StreamEvent(Enum):
+    '''
+    List of StreamEvents and unique IDs
+    '''
+    TEST_CONNECTION_COMPLETE = 1
+    TEST_CONNECTION_INITIALIZING = 7
+    TEST_CONNECTION_INIT_FAILED_SERVER_UNREACHABLE = 2
+    TEST_CONNECTION_FAILED_SERVER_UNRESPONSIVE = 3
+    TEST_CONNECTION_STARTED = 4
+    TEST_CONNECTION_FAILED_ABORT = 8
+    LIVE_VIEW_STARTED = 5
+    LIVE_VIEW_STOPPED = 6
+    CALIBRATION_STARTED = 9
+    CALIBRATION_COMPLETED = 10
+    CALIBRATION_FAILED_NO_CONNECTION = 11
+    CALIBRATION_FAILED_ABORT = 12
+    CALIBRATION_FAILED_NO_ACTIVE_CHANNELS = 13
+    CALIBRATION_FAILED_DATA_NOT_IN_SYNC = 14
+    CALIBRATION_FAILED_SAMPLING_RATE_TOO_LOW = 15
+    CALIBRATION_FAILED_INSUFFICIENT_DATA = 16
+    TRAIN_CLASSIFIER_STARTED = 17
+    TRAIN_CLASSIFIER_CANCELLED = 18
+    TRAIN_CLASSIFIER_COMPLETED = 19
+    LIVE_CLASSIFICATION_NO_CLF = 20
+    LIVE_CLASSIFICATION_NO_CONNECTION = 21
+    LIVE_CLASSIFICATION_NUM_CHANNEL_MISMATCH = 22
+    LIVE_CLASSIFICATION_STARTED = 23
+    LIVE_CLASSIFICATION_STOPPED = 24
+    ACTIVE_CHANNELS_CHANGED = 25
