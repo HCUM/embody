@@ -421,8 +421,8 @@ class CompleteCalibrationDialog(wx.Dialog):
         if self.finishTimer > 0:
             self.text.SetLabel("Finishing up calibration...")
             self.text.SetForegroundColour((0,0,0))
-            self.countdown.SetLabel(str(self.finishTimer))
             self.countdown.SetForegroundColour((0, 0, 0))
+            self.countdown.SetLabel(str(self.finishTimer))
             self.finishTimer -= 1
             self.Layout()
             self.Fit()
@@ -435,8 +435,8 @@ class CompleteCalibrationDialog(wx.Dialog):
         if self.preparationTimeCounter > 0:
             self.text.SetLabel("Prepare for " + str(self.gestureLabels[self.labelIndex][0]) + " in ...")
             self.text.SetForegroundColour((0,0,0))
-            self.countdown.SetLabel(str(self.preparationTimeCounter))
             self.countdown.SetForegroundColour((0, 0, 0))
+            self.countdown.SetLabel(str(self.preparationTimeCounter))
             self.preparationTimeCounter -= 1
             self.Layout()
             self.Fit()
@@ -447,8 +447,8 @@ class CompleteCalibrationDialog(wx.Dialog):
             self.streamHandler.setCurrentCalibrationLabel(self.gestureLabels[self.labelIndex])
             self.text.SetLabel("Calibrating for " + str(self.gestureLabels[self.labelIndex][0]))
             self.text.SetForegroundColour((255,0,0))
-            self.countdown.SetLabel(str(self.recordingTimeCounter))
             self.countdown.SetForegroundColour((255, 0, 0))
+            self.countdown.SetLabel(str(self.recordingTimeCounter))
             self.recordingTimeCounter -= 1
             self.Layout()
             self.Fit()
