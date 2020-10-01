@@ -16,3 +16,18 @@ EMBody's main use case is recording electromyograms (EMG) via surface electrodes
 
 ## Software application (embody/)
 * python application connecting to the prototype, see /manual for a detailed operation manual.
+
+## Citing EMBody
+
+Below are the BibTex entries to cite EMBody
+
+```
+@misc{karolus:embody,
+  author = {Karolus, Jakob and Kiss, Francisco and Wo\'{z}niak, Pawe\l W.},
+  title = {EMBody},
+  year = {2020},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/HCUM/embody}}
+}
+```
