@@ -13,7 +13,7 @@ EMBody already provides out-of-the-box functionality to calibrate and predict ge
 3. Provide a list of gestures/movements to recognize in **Calibration**.
 4. Run a complete calibration providing sample data for each gesture.
 5. Train a classifier model.
-6. Start live classification, enabling a UDP stream (port: 3334) of live predictions.
+6. Start live classification, enabling a UDP stream (port: 3334) of live predictions (alternatively: pylsl).
 7. Connect to the live classification stream with any other application and use for interaction.
 
 ## Electrode Setup
@@ -69,7 +69,7 @@ To recognize and predict performed gestures, the users needs to provide the tool
 |:--:|:--:|
 | *Specifying calibration labels* | *Creating an empty calibration (right side)* |
 
-*Start Complete Calibration* will guide you through a full calibration process, where you will alternatingly provide sample data for the labels. After the process completes, the toolkit displays the amount of collected data (in seconds) for each label and allows the user to train a classification. Depending on the size of collected data, this might take a while and happens in the background. After completion, the software will perform a 10-fold cross validation on the learned model to indicate its performance. Upon succesfully training a model, the user can start a live classification (the current model used will be displayed in the calibration tab). The live classification is available in the **Liveview** tab as well as will be streamed via UDP (**port: 3334**), thus being available to any other software in the network. The port can be specified (not shown in the picture). Note that at any point you can save a recorded calibration for post-hoc analysis (top right), e.g., running different classification schemes.
+*Start Complete Calibration* will guide you through a full calibration process, where you will alternatingly provide sample data for the labels. After the process completes, the toolkit displays the amount of collected data (in seconds) for each label and allows the user to train a classification. Depending on the size of collected data, this might take a while and happens in the background. After completion, the software will perform a 10-fold cross validation on the learned model to indicate its performance. Upon succesfully training a model, the user can start a live classification (the current model used will be displayed in the calibration tab). The live classification is available in the **Liveview** tab as well as will be streamed via UDP (**port: 3334**), thus being available to any other software in the network. The port can be specified (not shown in the picture). Alternatively, EMBody provides streaming over lab streaming layer (LSL) as well, see pylsl. Note that at any point you can save a recorded calibration for post-hoc analysis (top right), e.g., running different classification schemes.
 
 | <img src="./calibration1_3.gif" alt="calibration1_3" width="500"/> | <img src="./calibration2.png" alt="calibration2" width="500"/> | 
 |:--:|:--:|
