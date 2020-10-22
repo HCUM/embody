@@ -20,9 +20,21 @@ EMBody's main use case is recording electromyograms (EMG) via surface electrodes
 ## Citing EMBody
 
 Below are the BibTex entries to cite EMBody
+```
+To Be Published:
+@article{karolusEmbody2021,
+author = {Karolus, Jakob and Kiss, Francisco and Eckerth, Caroline and Viot, Nicolas and Bachmann, Felix, and Schmidt, Albrecht and Wo\'{z}niak, Pawe\l W.},
+title = {EMBody: A Data-Centric Toolkit for EMG-Based Interface Prototyping and Experimentation},
+year = {2021},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+number = {EICS},
+journal = {Proc. ACM Hum.-Comput. Interact.}
+}
+```
 
 ```
-@misc{karolus:embody,
+@misc{karolusEmbody,
   author = {Karolus, Jakob and Kiss, Francisco and Wo\'{z}niak, Pawe\l W.},
   title = {EMBody},
   year = {2020},
