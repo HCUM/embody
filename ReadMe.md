@@ -13,7 +13,7 @@ EMBody's main use case is recording electromyograms (EMG) via surface electrodes
 
 ## Hardware ressources
 * Circuit board layouts and cases: see [Casing](./casings) and [Circuits](./circuits) for files
-* Short [assembly description](./casings)
+* Short [assembly description](./circuits)
 * Firmware for ESP32 microcontroller: see [Firmware](./esp_firmware)
 
 ## Software application
