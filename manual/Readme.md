@@ -1,9 +1,9 @@
 # EMBody: An Integrated Toolkit for EMG-Based Interface Prototyping
 
 This manuals describe how to use the software toolkit to connect to an existing EMBody prototype and interpret the signal.
-The software is based on Python 3.6 and the following libraries: wxPython, matplotlib, pandas, numpy, scipy, sklearn, pylsl (also refer to [EMBody Software](./embody)).
+The software is based on Python 3.6 and the following libraries: wxPython, matplotlib, pandas, numpy, scipy, sklearn, pylsl (also refer to [EMBody Software](../embody)).
 It provides a GUI split into different views, that interact with each other: Setup, Calibration and Liveview, as well as a logic backend for stream and classification handling, communicating over StreamEvents. Note that developers can provide additional functionality by adding more views or substituting stream handling (StreamHandler.py). Of special interest in this case should also be the ClassificationManager.py handling classification for the incoming signal. Developers are encouraged to change preprocessing, feature generation and classification algorithms if needed.
-Details on hook methods and their purpose can be found in the paper (an overview is provided at [EMBody Software](./embody)).
+Details on hook methods and their purpose can be found in the paper (an overview is provided at [EMBody Software](../embody)).
 
 EMBody already provides out-of-the-box functionality to calibrate and predict gestures recorded via EMG signals. This section outlines a typical workflow and gives detailed instructions for the individual views of the toolkit. The following video provides the same step by step guide for this workflow.
 
