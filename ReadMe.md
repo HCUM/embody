@@ -12,8 +12,8 @@ The toolkit consists of a hardware prototype that can record electrical potentia
 EMBody's main use case is recording electromyograms (EMG) via surface electrodes. We envision that the toolkit enables creators to rapidly begin their journey into EMG-based interfaces. This repository contains all the necessary resources to build the system from scratch. Please feel free to contact us in case of questions.
 
 ## Hardware ressources
-* Circuit board layouts and cases: see [Casing](./casing) and [Circuits](./circuits) for files
-* Short assembly description
+* Circuit board layouts and cases: see [Casing](./casings) and [Circuits](./circuits) for files
+* Short [assembly description](./casings)
 * Firmware for ESP32 microcontroller: see [Firmware](./esp_firmware)
 
 ## Software application
