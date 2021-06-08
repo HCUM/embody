@@ -1,6 +1,6 @@
 # EMBody software application
 
-**For a complete manual on EMBody's workflow, please refer to /manual/Readme.md.**
+**For a complete manual on EMBody's workflow, please refer to the [Manual](../manual), which also includes an instructional video.**
 
 Run "python Main.py" to start the application. This software is based on Python 3.6 and the following libraries: 
 * wxPython
