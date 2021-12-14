@@ -426,15 +426,15 @@ class RMSStreamingThread(Thread):
     def __init__(self, streamHandler, connectionInfo, lsl_rand_int):
         Thread.__init__(self)
         self.rmsSamplingRate = 60.0
-        self.slowRmsSamplingRate = 4.0
+        self.aggegratedRmsSamplingRate = 0.25 #duration in secs
         #TODO: change to real buffer length and sampling rate
-        info = StreamInfo('EMBody RMS zero latency', 'EMG RMS', 6, 60, 'double64', 'EMBody-rms-' + lsl_rand_int)
-        info2 = StreamInfo('EMBody RMS aggegrated (250ms)', 'EMG RMS', 6, 60, 'double64', 'EMBody-rms-' + lsl_rand_int)
+        info = StreamInfo('EMBody RMS zero latency', 'EMG RMS', connectionInfo.numberOfChannels, self.rmsSamplingRate, 'double64', 'EMBody-rms-' + lsl_rand_int)
+        info2 = StreamInfo('EMBody RMS aggegrated', 'EMG RMS', connectionInfo.numberOfChannels, self.rmsSamplingRate, 'double64', 'EMBody-rms-' + lsl_rand_int)
         self.outlet = StreamOutlet(info)
         self.outlet2 = StreamOutlet(info2)
         self.streamHandler = streamHandler
-        self.freshSamples = math.floor(connectionInfo.estimatedSamplingRate / 60.0)
-        self.aggregatedSamples = math.floor(connectionInfo.estimatedSamplingRate / 4.0)
+        self.freshSamples = math.floor(connectionInfo.estimatedSamplingRate / self.rmsSamplingRate)
+        self.aggregatedSamples = math.floor(connectionInfo.estimatedSamplingRate * self.aggegratedRmsSamplingRate)
 
 
 
@@ -453,4 +453,4 @@ class RMSStreamingThread(Thread):
                         rmsSample2.append(avg_rms2)
                     self.outlet.push_sample(rmsSample)
                     self.outlet2.push_sample(rmsSample2)
-                    time.sleep(0.0167)
+                    time.sleep(1.0/self.rmsSamplingRate)
