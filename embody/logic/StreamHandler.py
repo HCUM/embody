@@ -98,6 +98,9 @@ class StreamHandler(StreamEventCreator):
         self.stopLiveClassification()
 
     def stopLiveClassification(self):
+        if self.rmsStreamingThread is not None:
+            self.stopStreamingRMS()
+
         if self.liveClassificationThread is not None:
             self.liveClassificationThread.running = False
             self.liveClassificationThread.join()
@@ -106,6 +109,9 @@ class StreamHandler(StreamEventCreator):
             self.fireStreamEvent(StreamEvent.LIVE_CLASSIFICATION_STOPPED)
 
     def stopLiveView(self):
+        if self.rmsStreamingThread is not None:
+            self.stopStreamingRMS()
+
         if self.liveViewThread is not None:
             self.liveViewThread.running = False
             self.liveViewThread.join()
@@ -437,15 +443,14 @@ class RMSStreamingThread(Thread):
         while self.running:
             if self.freshSamples >= 1:
                 rmsBuffer = self.streamHandler.getCurrentBuffer(filtered=True, rms=True)
-                #calculate "new" sample based on samplingRate and projected 60Hz streaming rate
-
-                rmsSample = []
-                rmsSample2 = []
-                for channel in rmsBuffer:
-                    avg_rms = np.mean(list(itertools.islice(channel, 0, self.freshSamples)))
-                    avg_rms2 = np.mean(list(itertools.islice(channel, 0, self.aggregatedSamples)))
-                    rmsSample.append(avg_rms)
-                    rmsSample2.append(avg_rms2)
-                self.outlet.push_sample(rmsSample)
-                self.outlet2.push_sample(rmsSample2)
-                time.sleep(0.0167)
+                if rmsBuffer is not None:
+                    rmsSample = []
+                    rmsSample2 = []
+                    for channel in rmsBuffer:
+                        avg_rms = np.mean(list(itertools.islice(channel, 0, self.freshSamples)))
+                        avg_rms2 = np.mean(list(itertools.islice(channel, 0, self.aggregatedSamples)))
+                        rmsSample.append(avg_rms)
+                        rmsSample2.append(avg_rms2)
+                    self.outlet.push_sample(rmsSample)
+                    self.outlet2.push_sample(rmsSample2)
+                    time.sleep(0.0167)

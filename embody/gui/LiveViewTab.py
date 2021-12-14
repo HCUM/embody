@@ -39,6 +39,7 @@ class LiveViewTab(StreamEventListener):
             self.Bind(wx.EVT_CHOICE, self.onViewModeChanged, self.viewModeChoice)
             hbox1.Add(self.viewModeChoice, flag=wx.TOP | wx.LEFT, border=5)
             hbox1.Add(self.lsl_rms_stream, flag=wx.TOP | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=5)
+            self.lsl_rms_stream.SetValue(self.streamHandler.isStreamingRMS)
             self.lsl_rms_stream.Bind(wx.EVT_CHECKBOX, self.onRmsStreamToggled)
 
             self.sizer.Add(hbox1)
