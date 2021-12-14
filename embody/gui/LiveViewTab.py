@@ -30,10 +30,18 @@ class LiveViewTab(StreamEventListener):
             self.sizer.Remove(len(self.sizer.GetChildren())-1)
 
         if self.streamHandler.isLiveViewActive or self.streamHandler.isStreamingClassification:
+
+            hbox1 = wx.BoxSizer(wx.HORIZONTAL)
+            self.lsl_rms_stream = wx.CheckBox(self, label="Stream RMS data to LSL")
+
             self.viewModeChoice = wx.Choice(self, -1, choices = view_modes)
             self.viewModeChoice.SetSelection(self.currentViewMode)
             self.Bind(wx.EVT_CHOICE, self.onViewModeChanged, self.viewModeChoice)
-            self.sizer.Add(self.viewModeChoice, flag=wx.TOP | wx.LEFT, border=5)
+            hbox1.Add(self.viewModeChoice, flag=wx.TOP | wx.LEFT, border=5)
+            hbox1.Add(self.lsl_rms_stream, flag=wx.TOP | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=5)
+            self.lsl_rms_stream.Bind(wx.EVT_CHECKBOX, self.onRmsStreamToggled)
+
+            self.sizer.Add(hbox1)
 
             self.figure = plt.Figure()
             self.createGridConfiguration()
@@ -136,6 +144,15 @@ class LiveViewTab(StreamEventListener):
                 self.st_prediction.SetLabel("No live classification available.")
         if streamEvent == StreamEvent.ACTIVE_CHANNELS_CHANGED:
             self.updateView()
+
+
+    '''
+    Convience method to send out an RMS Stream for LSL -> sends the current buffer; does not check for new samples; sampling rate of approx. 60Hz
+    '''
+    def onRmsStreamToggled(self, e):
+        self.streamHandler.stopStreamingRMS()
+        if self.lsl_rms_stream.IsChecked():
+            self.streamHandler.startStreamingRMS()
 
 
 

@@ -10,6 +10,8 @@ import itertools
 from logic.helpers import filterRingBuffer
 from pylsl import StreamInfo, StreamOutlet
 from random import randint
+import numpy as np
+import math
 
 
 class StreamHandler(StreamEventCreator):
@@ -22,9 +24,11 @@ class StreamHandler(StreamEventCreator):
         self.connectionTestThread = None
         self.liveViewThread = None
         self.isStreamingClassification = False
+        self.isStreamingRMS = False
         self.liveClassificationThread = None
         self.calibrationThread = None
         self.trainClassifierThread = None
+        self.rmsStreamingThread = None
         self.isLiveViewActive = False
         self.classificationManager = classificationManager
         self.currentCalibrationLabel = (None, None)
@@ -218,6 +222,20 @@ class StreamHandler(StreamEventCreator):
         self.stopAllLiveViewConnections()
         self.startLiveClassificationThread(udp_port, usePyLSL)
 
+    def startStreamingRMS(self):
+        self.rmsStreamingThread = RMSStreamingThread(self, self.connectionInfo, self.lsl_rand_int)
+        self.rmsStreamingThread.start()
+        self.isStreamingRMS = True
+        self.fireStreamEvent(StreamEvent.RMS_STREAM_STARTED)
+
+    def stopStreamingRMS(self):
+        if self.rmsStreamingThread is not None:
+            self.rmsStreamingThread.running = False
+            self.rmsStreamingThread.join()
+            self.isStreamingRMS = False
+            self.rmsStreamingThread = None
+            self.fireStreamEvent(StreamEvent.RMS_STREAM_STOPPED)
+
 
 class TrainClassifierThread(Thread):
     '''
@@ -395,3 +413,39 @@ class TestConnectionThread(Thread):
         self.sock.close()
 
 
+class RMSStreamingThread(Thread):
+    '''
+    Background thread that is active during if RMS streaming is toggled in live view;
+    '''
+    def __init__(self, streamHandler, connectionInfo, lsl_rand_int):
+        Thread.__init__(self)
+        self.rmsSamplingRate = 60.0
+        self.slowRmsSamplingRate = 4.0
+        #TODO: change to real buffer length and sampling rate
+        info = StreamInfo('EMBody RMS zero latency', 'EMG RMS', 6, 60, 'double64', 'EMBody-rms-' + lsl_rand_int)
+        info2 = StreamInfo('EMBody RMS aggegrated (250ms)', 'EMG RMS', 6, 60, 'double64', 'EMBody-rms-' + lsl_rand_int)
+        self.outlet = StreamOutlet(info)
+        self.outlet2 = StreamOutlet(info2)
+        self.streamHandler = streamHandler
+        self.freshSamples = math.floor(connectionInfo.estimatedSamplingRate / 60.0)
+        self.aggregatedSamples = math.floor(connectionInfo.estimatedSamplingRate / 4.0)
+
+
+
+    def run(self):
+        self.running = True
+        while self.running:
+            if self.freshSamples >= 1:
+                rmsBuffer = self.streamHandler.getCurrentBuffer(filtered=True, rms=True)
+                #calculate "new" sample based on samplingRate and projected 60Hz streaming rate
+
+                rmsSample = []
+                rmsSample2 = []
+                for channel in rmsBuffer:
+                    avg_rms = np.mean(list(itertools.islice(channel, 0, self.freshSamples)))
+                    avg_rms2 = np.mean(list(itertools.islice(channel, 0, self.aggregatedSamples)))
+                    rmsSample.append(avg_rms)
+                    rmsSample2.append(avg_rms2)
+                self.outlet.push_sample(rmsSample)
+                self.outlet2.push_sample(rmsSample2)
+                time.sleep(0.0167)
